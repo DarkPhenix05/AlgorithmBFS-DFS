@@ -7,19 +7,25 @@ public class Algoritm : MonoBehaviour
     {
         public int value;
 
-        public Node left;
-        public bool leftFree = true;
-
-        public Node right;
-        public bool rightFree = true;
-
-        public bool edge = true;
+        public edges[] edges;
 
         public void show()
         {
             Console.Write("[");
             Console.Write(value);
             Console.Write("]");
+        }
+    }
+
+    class edges
+    {
+        public Node node1;
+        public Node node2;
+
+        public void SetNodes(Node _node1, Node _node2)
+        {
+            node1 = _node1;
+            node2 = _node2;
         }
     }
 
