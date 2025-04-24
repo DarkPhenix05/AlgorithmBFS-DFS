@@ -1,19 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
+//SEPARAR LOGICA DE DIBUJADO DE CAMINO Y ALGORITMO
 
 public class GraphManager : MonoBehaviour
 {
     public List<Node> allNodes = new List<Node>();
     public Node startNode; // assign this in inspector for UI buttons
+    public Color _DFSColor;
+    public Color _BFSColor;
+
+    [Range(0.0f, 1.0f)]
+    public float WhaitTime;
+
+    public Slider slider;
 
     public void Start()
     {
         DrawAllEdges();
+        ResetGraph();
+        slider = FindObjectOfType<Slider>();
     }
 
     public void ResetGraph()
     {
+        StopAllCoroutines();
         foreach (var node in allNodes)
         {
             node.ResetNode();
@@ -30,7 +43,7 @@ public class GraphManager : MonoBehaviour
             }
         }
     }
-
+    
     public void StartDFS()
     {
         if (startNode != null)
@@ -49,19 +62,32 @@ public class GraphManager : MonoBehaviour
         }
     }
 
+    public void Djkstras()
+    {
+        if(startNode != null)
+        {
+            ResetGraph();
+            StartCoroutine(Djkstras(startNode));
+        }
+    }
+
     private IEnumerator DFS(Node start)
     {
         Stack<Node> stack = new Stack<Node>();
         stack.Push(start);
+        int Number = 0;
+
 
         while (stack.Count > 0)
         {
             Node current = stack.Pop();
             if (!current.visited)
-            {
+            {                
                 current.visited = true;
-                current.Highlight(Color.red);
-                yield return new WaitForSeconds(0.5f);
+                current.Highlight(_DFSColor);
+                current.UpdateNodeVal(Number.ToString());
+                Number++;
+                yield return new WaitForSeconds(WhaitTime);
 
                 foreach (var neighbor in current.neighbors)
                 {
@@ -75,6 +101,7 @@ public class GraphManager : MonoBehaviour
     {
         Queue<Node> queue = new Queue<Node>();
         queue.Enqueue(start);
+        int Number = 0;
 
         while (queue.Count > 0)
         {
@@ -82,8 +109,10 @@ public class GraphManager : MonoBehaviour
             if (!current.visited)
             {
                 current.visited = true;
-                current.Highlight(Color.blue);
-                yield return new WaitForSeconds(0.5f);
+                current.Highlight(_BFSColor);
+                current.UpdateNodeVal(Number.ToString());
+                Number++;
+                yield return new WaitForSeconds(WhaitTime);
 
                 foreach (var neighbor in current.neighbors)
                 {
@@ -91,5 +120,40 @@ public class GraphManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator Djkstras(Node start)
+    {
+        Queue<Node> queue = new Queue<Node>();
+        queue.Enqueue(start);
+        int Number = 0;
+
+        while (queue.Count > 0)
+        {
+            Node current = queue.Dequeue();
+            if (!current.visited)
+            {
+                current.visited = true;
+                current.Highlight(_BFSColor);
+                current.UpdateNodeVal(Number.ToString());
+                Number++;
+                yield return new WaitForSeconds(WhaitTime);
+
+                foreach (var neighbor in current.neighbors)
+                {
+                    queue.Enqueue(neighbor);
+                }
+            }
+        }
+    }
+
+    public void SetWait()
+    {
+        WhaitTime = slider.value;
+    }
+
+    public float GetWhaitTime()
+    {
+        return WhaitTime;
     }
 }
