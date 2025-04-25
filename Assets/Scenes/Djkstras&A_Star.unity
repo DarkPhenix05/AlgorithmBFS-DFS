@@ -2887,6 +2887,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1229131672}
     - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
+      propertyPath: Offcet.x
+      value: 9.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
+      propertyPath: Offcet.y
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
       propertyPath: WhaitTime
       value: 0.5
       objectReference: {fileID: 0}
@@ -2894,6 +2902,10 @@ PrefabInstance:
       propertyPath: startNode
       value: 
       objectReference: {fileID: 2183696610065306016}
+    - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
+      propertyPath: _BFSColor.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
       propertyPath: _BFSColor.b
       value: 0
@@ -2919,6 +2931,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
+      propertyPath: _DFSColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
       propertyPath: _DFSColor.b
       value: 0.003575325
       objectReference: {fileID: 0}
@@ -2941,6 +2957,22 @@ PrefabInstance:
     - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
       propertyPath: _DFScolor.r
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
+      propertyPath: LineTextColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
+      propertyPath: LineTextColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
+      propertyPath: LineTextColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
+      propertyPath: LineTextColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4232677454497807521, guid: bb657cca9f6bf8144882c648516dc496, type: 3}
       propertyPath: allNodes.Array.size

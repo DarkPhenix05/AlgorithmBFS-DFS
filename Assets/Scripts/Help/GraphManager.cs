@@ -15,6 +15,8 @@ public class GraphManager : MonoBehaviour
     [Range(0.0f, 1.0f)]
     public float WhaitTime;
 
+    public Color LineTextColor;
+
     public Slider slider;
 
     public void Start()
@@ -39,7 +41,7 @@ public class GraphManager : MonoBehaviour
         {
             foreach (var neighbor in node.neighbors)
             {
-                EdgeDrawer.DrawEdge(node, neighbor);
+                EdgeDrawer.DrawEdge(node, neighbor, LineTextColor);
             }
         }
     }
