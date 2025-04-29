@@ -1,51 +1,49 @@
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.SearchService;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+using static UnityEngine.AudioSettings;
 
 public class EdgeDrawer : MonoBehaviour
 {
-    public static void DrawEdge(Node from, Node to, Color clr)
-    {
-        GameObject lineObj = new GameObject("Edge");
-        LineRenderer lr = lineObj.AddComponent<LineRenderer>();
+    private static Transform edgesParent;
+    private static Transform labelsParent;
 
+    public static void DrawEdge(Node from, Node to)
+    {
+        if (edgesParent == null)
+        {
+            GameObject edgesObj = new GameObject("Edges");
+            edgesParent = edgesObj.transform;
+        }
+        if (labelsParent == null)
+        {
+            GameObject labelsObj = new GameObject("EdgeLabels");
+            labelsParent = labelsObj.transform;
+        }
+
+        GameObject lineObj = new GameObject($"Edge_{from.name}_to_{to.name}");
+        lineObj.transform.SetParent(edgesParent);
+        LineRenderer lr = lineObj.AddComponent<LineRenderer>();
         lr.positionCount = 2;
         lr.SetPosition(0, from.transform.position);
         lr.SetPosition(1, to.transform.position);
         lr.startWidth = lr.endWidth = 0.05f;
         lr.material = new Material(Shader.Find("Sprites/Default"));
         lr.startColor = lr.endColor = Color.black;
-        
 
+        GameObject labelObj = new GameObject($"Label_{from.name}_to_{to.name}");
+        labelObj.transform.SetParent(labelsParent);
+        labelObj.transform.position = (from.transform.position + to.transform.position) / 2f + new Vector3(0.0f,0.0f,-0.1f);
 
-        float dtX = (to.transform.position.x - from.transform.position.x);
-        float dtY = (to.transform.position.y - from.transform.position.y);
-        float dtZ = (to.transform.position.z - from.transform.position.z);
+        TextMeshPro tmp = labelObj.AddComponent<TextMeshPro>();
+        tmp.fontSize = 4;
+        tmp.enableAutoSizing = false;
+        tmp.alignment = TextAlignmentOptions.Center;
+        tmp.color = Color.red;
+        tmp.text = Vector3.Distance(from.transform.position, to.transform.position).ToString("F1");
+        tmp.outlineColor = Color.white;
+        tmp.outlineWidth = 1f;
 
-        float dt = Mathf.Sqrt( (dtX * dtX)+(dtY * dtY)+(dtZ * dtZ) );
-        Vector3 vectDt = to.transform.position - from.transform.position;
-
-        Edge eg =  lineObj.AddComponent<Edge>();
-        eg.SetValue(dt);
-        to.AddEdge(eg);
-
-        lineObj.transform.parent = to.transform;
-
-        GameObject textMeshPro = new GameObject("Weight (TMP)");
-        TextMeshPro txt = textMeshPro.AddComponent<TextMeshPro>();
-        RectTransform rct = textMeshPro.GetComponent<RectTransform>();
-        
-        textMeshPro.transform.SetParent(lineObj.transform);
-
-        txt.text = dt.ToString();
-        txt.fontSize = 4.0f;
-        txt.alignment = TextAlignmentOptions.Center;
-        txt.textWrappingMode = TextWrappingModes.NoWrap;
-        txt.outlineWidth = 2.5f;
-        textMeshPro.transform.position = (txt.bounds.center - txt.transform.position) + lr.bounds.center + new Vector3 (0.0f,0.0f,-0.1f);
-        txt.color = clr;
+        labelObj.AddComponent<FaceCamera>();
     }
 }
-

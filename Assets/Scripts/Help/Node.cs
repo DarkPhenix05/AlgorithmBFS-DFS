@@ -1,36 +1,47 @@
-// Node.cs
-using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
+
+[System.Serializable]
+public class NeighborInfo
+{
+    public Node node;
+    public float cost;
+
+    public NeighborInfo(Node node, float cost)
+    {
+        this.node = node;
+        this.cost = cost;
+    }
+}
 
 public class Node : MonoBehaviour
 {
     public List<Node> neighbors = new List<Node>();
-    public List<Edge> edges = new List<Edge>();
-    public Edge correctEdge = null;
+    public List<NeighborInfo> weightedNeighbors = new List<NeighborInfo>();
     public bool visited = false;
 
     private Renderer rend;
-
-    public int value;
-    public Color TextColor;
-    public TMP_Text TextBox;
+    private TextMeshPro textLabel;
 
     private void Awake()
     {
         rend = GetComponent<Renderer>();
-        TextBox = transform.Find("Canvas/Text (TMP)").GetComponent<TMP_Text>();
-    }
 
-    public void AddEdge(Edge edge)
-    {
-        edges.Add(edge);
-    }
+        // Create a label
+        GameObject labelObj = new GameObject("NodeLabel");
+        labelObj.transform.SetParent(transform);
+        labelObj.transform.localPosition = Vector3.up * 1.2f;
+        textLabel = labelObj.AddComponent<TextMeshPro>();
+        textLabel.fontSize = 2;
+        textLabel.enableAutoSizing = false;
+        textLabel.alignment = TextAlignmentOptions.Center;
+        textLabel.color = Color.black;
+        textLabel.text = gameObject.name;
+        textLabel.outlineWidth = 0.2f;
+        textLabel.outlineColor = Color.white;
 
-    public void SetText()
-    {
-        TextBox.text = value.ToString();
+        labelObj.AddComponent<FaceCamera>();
     }
 
     public void ResetNode()
@@ -38,14 +49,7 @@ public class Node : MonoBehaviour
         visited = false;
         if (rend != null)
             rend.material.color = Color.white;
-        UpdateNodeVal("-");
     }
-
-    public void UpdateNodeVal(string val)
-    {
-        Int32.TryParse(val, out value);
-        TextBox.text = val;
-    }    
 
     public void Highlight(Color color)
     {
@@ -53,23 +57,19 @@ public class Node : MonoBehaviour
             rend.material.color = color;
     }
 
-    public void SetValue(int val)
+    private void OnMouseOver()
     {
-        value = val;
+        if (GraphManager.Instance != null && !GraphManager.Instance.isAlgorithmRunning) // Check if algorithm is running
+        {
+            if (Input.GetMouseButtonDown(0)) // Left click
+            {
+                GraphManager.Instance.SetStartNode(this);
+            }
+            else if (Input.GetMouseButtonDown(1)) // Right click
+            {
+                GraphManager.Instance.SetGoalNode(this);
+            }
+        }
     }
 
-    public int GetValue()
-    {
-        return value;
-    }
-
-    public void SetColor(Color color)
-    {
-        TextColor = color;
-    }
-
-    public Color GetColor()
-    {
-        return TextColor;
-    }
 }
