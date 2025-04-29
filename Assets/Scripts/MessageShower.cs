@@ -6,12 +6,23 @@ public class MessageShower : MonoBehaviour
 {
     public GameObject MessageObject;
     public TextMeshProUGUI MessageTMP; // Use TextMeshProUGUI for UI text
+    public Canvas canvas;
+
+    public Vector3 originalPosition;
+    public Vector3 hiddenPosition;
 
     private void Awake()
     {
         MessageObject = this.gameObject;
         MessageTMP = MessageObject.GetComponent<TextMeshProUGUI>(); // Correct type
         ShowText("Left Click to set Start \n Right Click to set Goal");
+    }
+
+    private void Start()
+    {
+        canvas = GetComponentInParent<Canvas>();
+        originalPosition = MessageTMP.transform.localPosition + new Vector3 (0.0f,0.0f,-10.0f);
+        hiddenPosition = originalPosition + Vector3.up * 50f; 
     }
 
     public void ShowText(string message)
@@ -27,8 +38,7 @@ public class MessageShower : MonoBehaviour
         c.a = 0f;
         MessageTMP.color = c;
 
-        Vector3 originalPosition = MessageTMP.transform.localPosition;
-        Vector3 hiddenPosition = originalPosition + Vector3.up * 50f; // Slide from above
+        // Slide from above
         MessageTMP.transform.localPosition = hiddenPosition;
 
         float timeIn = 0.5f;
@@ -69,6 +79,8 @@ public class MessageShower : MonoBehaviour
         }
 
         MessageTMP.text = " ";
+
+        MessageTMP.transform.localPosition = originalPosition;
     }
 
 }

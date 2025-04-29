@@ -13,6 +13,7 @@ using UnityEditor;
 public class GraphManager : MonoBehaviour
 {
     public static GraphManager Instance;
+    public MessageShower messageShower;
 
     public Node[] allNodes;
     public Node startNode;
@@ -45,6 +46,8 @@ public class GraphManager : MonoBehaviour
 
         distText = distance.GetComponentInChildren<TextMeshPro>();
         waitText = waitTime.GetComponentInChildren<TextMeshPro>();
+
+        messageShower = FindAnyObjectByType<MessageShower>();
 
         SetDistance(5.0f);
         SetWait(0.5f);
@@ -134,7 +137,7 @@ public class GraphManager : MonoBehaviour
     {
         if (startNode == null)
         {
-
+            messageShower.ShowText("StarterNode == NULL");
             return;
         }
 
@@ -150,7 +153,7 @@ public class GraphManager : MonoBehaviour
     {
         if (startNode == null)
         {
-
+            messageShower.ShowText("StarterNode == NULL");
             return;
         }
 
@@ -166,13 +169,13 @@ public class GraphManager : MonoBehaviour
     {
         if (startNode == null)
         {
-
+            messageShower.ShowText("StarterNode == NULL");
             return;
         }
 
         if (goalNode == null)
         {
-
+            messageShower.ShowText("GoalNode == NULL");
             return;
         }
 
@@ -189,13 +192,13 @@ public class GraphManager : MonoBehaviour
     {
         if (startNode == null)
         {
-
+            messageShower.ShowText("StarterNode == NULL");
             return;
         }
 
         if (goalNode == null)
         {
-
+            messageShower.ShowText("GoalNode == NULL");
             return;
         }
 
